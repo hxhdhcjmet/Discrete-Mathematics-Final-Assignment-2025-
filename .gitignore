@@ -427,15 +427,18 @@ yarn-error.log*
 #.vscode
 .vscode/
 
-# Ignore all files
+# LaTeX 临时文件
 *.aux
+*.log
 *.bcf
-*.bcf-SAVE-ERROR
-*.fdb_latexmk
+*.bcf-*
 *.fls
-*.run
+*.fdb_latexmk
+*.run.xml
 *.synctex.gz
+*.out
+*.toc
 
-# Except .tex and .pdf files
+# 保留必要的文件
 !*.tex
 !*.pdf
