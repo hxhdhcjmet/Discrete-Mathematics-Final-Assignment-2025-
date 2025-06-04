@@ -18,9 +18,12 @@
 \newtheorem{definition}[theorem]{Definition}
 \newtheorem{example}[theorem]{Example}
 
+
 \begin{document}
 
+
 \maketitle
+\tableofcontents
 
 %\begin{abstract}
    % This paper investigates the enumeration of transitive relations on finite sets. We present combinatorial analysis and recursive formulas for calculating the number of transitive relations on an $n$-element set. Key results include asymptotic bounds and connections to related combinatorial structures. This work extends previous research by providing new computational insights and improved lower bounds.
@@ -58,12 +61,20 @@ $\textstyle \sum_{i}^{}\binom{\lambda_{i}}{2}$表示各块内部非自反边的�
 \\
 \hspace*{2em}该公式将传递关系分解为划分+块内完全图子集+块间严格偏序,链接了整数分拆、偏序计数和等价关系计数,但计算的复杂度依然很高,需要遍历所有分拆$\lambda \vdash k$,分拆数$p(k)$增长迅速且求和形式无法化简为封闭表达式。
 \subsubsection{渐进行为与上下界}
-$Kleitman:$Kleitman通过分析传递关系矩阵中的"1"块的结构,证明了$T(n)\leq 2^{n^2/4+o(n)}$。\\
+$Kleitman's\ Asymptotic\ Bounds:$Kleitman通过分析传递关系矩阵中的"1"块的结构,证明了$T(n)\leq 2^{n^2/4+o(n)}$。
+核心思想为利用集合划分和链的性质来构造传递关系。特别地,他关注了关系图可以分解为若干条不相交的链的传递关系,并经过精心设计的计数和估计,给出了包含所有传递关系的范围。\\
 \hspace*{2em}$2019-Sharp,Pantone,Spiro:$他们证明了$T(n)=2^{(1/4+o(1))n^2}$,核心思想为利用整数分拆来描述传递关系的结构。通过计算所有划分的权重和,证明这个和的主要贡献来自于那些块大小相对均衡的划分,最终证明最大权重对应于
 块大小接近$\sqrt{n}$的划分,并且在这种划分下,可添加的自幼边数大约是$n^{2}/4$。\\
-\hspace*{2em}这两个证明确定了$T(n)$的指数增长率为(1/4)$n^2$。
+\hspace*{2em}这两个证明确定了$T(n)$的指数增长率即核心增长项为(1/4)$n^2$.
 \subsubsection{精确计数与算法改进}
 $Pfeiffer:$提出基于传递关系诱导的预序的树状递归结构。将问题分解为计算特定的较小的传递关系构成的更大的传递关系。这比朴素的枚举更高效。\\
+$Pfreiffer\ formula:$\\
+\[
+T(n)=\sum_{\pi}^{}(P(k)\times \prod_{B\in \pi}^{} B(\left | B \right | ))
+\]
+\hspace*{2em}$\sum_{\pi}^{}$求和范围表示遍历集合$S$的所有划分$\pi$;块数$k=\left | \pi \right |$是划分$\pi$的块数(等价类的个数);
+$P(k)$是$k$元集合上的偏序关系数目;$B(\left | B \right |)$贝尔数:$B(m)$是$m$元集合上的等价关系数量;乘积项$\prod_{B \in \pi}^{}B(\left | B \right |)$是对于划分$\pi$中的每个块
+$B$,计算其大小$\left | B \right |$的贝尔数,并求乘积。\\
 \hspace*{2em}布尔矩阵分解:传递关系看作其自反传递闭包的子集,利用布尔矩阵半环的性质,设计算法满足特的特定闭包性质的布尔矩阵数量。目前最先进的算法(基于树状分解、优化布尔矩阵计算等)已经能计算到$n$=24甚至更高。
 如$T(20)$是一个有几十亿位的天文数字。
 \subsubsection{随机传递关系}
