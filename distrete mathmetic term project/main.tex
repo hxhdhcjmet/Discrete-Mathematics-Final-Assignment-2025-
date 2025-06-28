@@ -4,8 +4,6 @@
 \usepackage{tikz}
 \usepackage{ctex}
 \usetikzlibrary{graphs, graphs.standard,arrows.meta,positioning}
-%\usepackage[backend=biber,style=plain]{biblatex}
-%\addbibresource{references.bib} % 创建参考文献文件
 \title{$n$元集合上的传递关系数目}
 \author{江李阳}
 \date{\today}
@@ -16,7 +14,6 @@
 \theoremstyle{definition}
 \newtheorem{definition}[theorem]{Definition}
 \newtheorem{example}[theorem]{Example}
-
 
 \begin{document}
 
@@ -71,18 +68,13 @@
 在统计满足传递性的矩阵数时需要排除违反传递性的三元组($a,b,c$),其中存在边$a\rightarrow b$和$b \rightarrow c$但缺少$a \rightarrow c$,由于三元组间存在重叠,会重复计数,需要通过容斥原理精确计数.\\
 \hspace*{2em}传递性下要求关系矩阵$M^2$$\leq$$M$,其中对$M$的乘积使用布尔运算,但这种只是判断条件,无法直接计数.
 \section{现代研究成果}
-\subsubsection{Comtet公式}\cite{comtet}
-
-对于$n$元集合上的传递关系计数问题,Comtet公式通过生成函数和整数分拆给出精确的表达式:
+\subsubsection{Comtet生成函数}\cite{comtet}
+Commet从生成函数角度研究传递关系结构,提出如下生成函数刻画T(n):
 \[
- T(n)=\sum_{k=1}^{n}\sum_{\lambda \vdash k}^{}\frac{n!}{ {\textstyle \prod_{i=1}^{k}}(m_{i}\cdot i^{m_{i}}) }\cdot 2^{ {\textstyle \sum_{i}^{}} + {\textstyle \sum_{i<j}^{} \binom{\lambda_{i}}{2}\lambda_{i}\lambda_{j}} }
+\sum_{n=0}^{\infty}\frac{T(n)}{n!}x^{n}=\sum_{k=0}^{\infty}\frac{1}{k!}(\sum_{m=1}^{\infty}\frac{B(m)}{m!}x^{m})^{k}
 \]
-初始条件为$T(0)=1$,意为空集$\emptyset$上传递关系数为1.
-其中$k$:传递诱导的等价类个数;$\lambda \vdash k$:遍历$k$的所有整数分拆$\lambda = (\lambda_{1},\lambda_{2},\dots ,\lambda_{m})$,满足 ${\textstyle \sum_{\lambda_{i}}^{}}=k$;
-$m_i$:分拆$\lambda$中大小为$i$的块的个数;系数项:$\frac{n!}{{\textstyle \prod_{i=1}^{k}}(m_{i}\cdot i^{m_{i}})}$表示将$n$个元素分配到分拆$\lambda$指定的块结构中的方案数;指数项:$2^{\textstyle \sum_{i}^{}\binom{\lambda_{i}}{2}+\textstyle \sum_{i<j}^{}\lambda_{i}\lambda_{j} }$表示:
-$\textstyle \sum_{i}^{}\binom{\lambda_{i}}{2}$表示各块内部非自反边的自由度,$\textstyle \sum_{i<j}^{}\lambda_{i}\lambda_{j}$:块间严格偏序决定的边自由度.
-\\
-\hspace*{2em}该公式将传递关系分解为划分+块内完全图子集+块间严格偏序,链接了整数分拆、偏序计数和等价关系计数,但计算的复杂度依然很高,需要遍历所有分拆$\lambda \vdash k$,分拆数$p(k)$增长迅速且求和形式无法化简为封闭表达式。
+\hspace*{2em}该表达式表明,传递关系可以由对集合的划分和划分上每块的等价关系结构构造而成,再在块间建立偏序结构.尽管该表达式无法直接用于
+数值计算,但在理论上提供了方向,为后续的实际地推关系和计数方法奠定基础.
 \subsubsection{渐进行为与上下界}\cite{maarefparvarnumber}
 $Kleitman's\ Asymptotic\ Bounds:$Kleitman通过分析传递关系矩阵中的"1"块的结构,证明了$T(n)\leq 2^{n^2/4+o(n)}$。
 核心思想为利用集合划分和链的性质来构造传递关系。特别地,他关注了关系图可以分解为若干条不相交的链的传递关系,并经过精心设计的计数和估计,给出了包含所有传递关系的范围。\\
@@ -91,7 +83,7 @@ $Kleitman's\ Asymptotic\ Bounds:$Kleitman通过分析传递关系矩阵中的"1"
 \hspace*{2em}这两个证明确定了$T(n)$的指数增长率即核心增长项为(1/4)$n^2$.
 \subsubsection{精确计数与算法改进}\cite{fischer1971boolean}
 $Pfeiffer:$提出基于传递关系诱导的预序的树状递归结构。将问题分解为计算特定的较小的传递关系构成的更大的传递关系。这比朴素的枚举更高效。\\
-$Pfreiffer\ formula:$\\
+Pfreiffer formula:\\
 \[
 T(n)=\sum_{\pi}^{}(P(k)\times \prod_{B\in \pi}^{} B(\left | B \right | ))
 \]
@@ -100,11 +92,34 @@ $P(k)$是$k$元集合上的偏序关系数目;$B(\left | B \right |)$贝尔数:$
 $B$,计算其大小$\left | B \right |$的贝尔数,并求乘积。\\
 \hspace*{2em}布尔矩阵分解:传递关系看作其自反传递闭包的子集,利用布尔矩阵半环的性质,设计算法满足特的特定闭包性质的布尔矩阵数量。目前最先进的算法(基于树状分解、优化布尔矩阵计算等)已经能计算到$n$=24甚至更高。
 如$T(20)$是一个有几十亿位的天文数字。
-\subsubsection{随机传递关系}
-研究在$n$元集合所有的$2^{n^{2}}$个二元关系上均匀随机选取一个关系时,该关系是传递关系的概率是$\frac{T(n)}{2^{n^{2}}}$。根据渐进结果$T(n)=2^{(1/4+o(1))n^2}$,这个概率约为
-$2^{-(3/4+o(1))n^2}$,表明传递关系极其稀少。
+\subsubsection{随机方法与概率角度}
+除了直接关注确定性的传递关系结构计数,也有研究者从概率的角度,从“随机生成关系是否为传递关系”这一问题出发,通过求解传递关系在所有关系中出现的概率来计算传递关系数目.\\
+\\最基本的问题为:从所有n元集合上的二元关系中随机选取一个,是传递关系的概率是多少？\\
+Sharp、Pantone与Spiro通过渐近分析证明,对于传递关系数T(n):
+\[
+T(n)\thicksim 2^{\frac{1}{4}n^{2}+o(n^{2})}
+\]
+又由所有关系数为$2^{n^{2}}$,故随机关系为传递关系的概率为满足:
+\[
+P=\frac{T(n)}{2^{n^{2}}}\thicksim 2^{-\frac{3}{4}n^{2}+o(n^{2})}
+\]
+由此可以看出,传递关系在所有关系中及其稀少,随机选择关系为传递关系的概率几乎为零,因此主流的研究方法还是构造性方法.\cite{panto2019asymptotic}
+
 \subsubsection{与图论和组合结构的关系}
-通过研究传递关系对应的有向图的性质,传递关系尤其是拟序和偏序定义了集合上的闭包算子,其闭集形成一个格,研究这些格的性质及其计数有助于理解和研究传递关系计数。\\
+图的结构分解、可达性等与传递关系有着极大的相似性,在图论的视角下研究传递关系计数问题亦有新的进展.\\
+传递系统与枚举算法:\\
+\hspace*{2em}Haraguchi和Nagamochi提出"transitive system"作为一种图结构,即若一个图的若干子图满足传递性(如子图包含可达路径结构),则整体
+称为传递系统.他们设计了多项式延迟(polynomial-delay)枚举算法,能够高效地输出所有满足条件地极大子集.这一算法对有传递关系的结构识别
+计数有一定应用价值.\cite{haraguchi2020polynomial}\\
+\hspace*{2em}Ding等从组合优化的角度研究了图上的“传递划分”\footnote{传递划分(transitive partition)指将图的顶点集划分为若干块,使这些块之间满足传递性,即若块A指向B,块B指向C,则块A也必指向C}
+问题,该问题在一般图中是NP-完全的,但他们证明了在二分图中这个问题仍是NP完全的,强化了NP完全性结果,同时在另一方面,他们还提出了一个线性时间算法来寻找给定二分链图\footnote{二分链图(chain bipartite graph)
+指一种邻接结构满足包含链条件的特殊二分图.对于集合X中的任意两个顶点$x_i<x_j$若N($x_i$)$\subseteq  $N($x_j$),则该图构成链式结构}的传递性,这为传递关系的组合结构提供了图论解释,虽然二者并不等同,一个是作用于点本身,
+而另一个是作用于点的集合构成的块.\cite{ding2022transitivity}
+\subsubsection{硬件加速}
+除了纯理论研究,人们也将目光转向硬件优化方面,利用GPU、FPGA、多核CPU等架构与算法联合,实现了求解传递闭包时单调而又繁杂的计算速度的大大提升,使更大n值时的传递关系
+计数称为可能.例如在2024年Lun Ai和Stephen H.Muggleton提出了Boolean Matrix Logic Programming(BMLP)即布尔逻辑矩阵编程,用于将数据记录查询的任务统一为布尔矩阵的
+操作模式.其中BMLP-RMS模块基于布尔矩阵快速幂实现闭包计算,BMLP-SMP模块采用稀疏结构进行选择性乘法优化.这两个核心模块通过将所有推理递归经由布尔矩阵操作完成,适应GPU矩阵
+库和多线程架构,提高了加速传递闭包计算的方法.最终实验测得,在处理百万规模的数据记录查询中能实现30倍(通用系统)和9倍(专用系统)的速度提升.\cite{ai2024boolean}
 
 \newpage
 %\section{三元集合上的传递关系}
@@ -300,7 +315,30 @@ $\\
 成员数:$2^{0}$=1;
 \\
 \hspace*{2em}总计3元集合上的传递关系数目:$T(3)=8+48+24+24+6+48+6+1=171$
-
+\section{讨论与未来工作}
+\begin{itemize}
+  \item[$\bullet$] 方法对比:
+   \begin{itemize}
+  \item[$\bullet$] 枚举与递归:只适用与很小的n值,时间复杂度为$O(2^{n^{2}})$,随n迅速增长,方法很快失效. 
+  \item[$\bullet$] 生成函数:理论化程度高,虽在理论上可行,但推导式子复杂,且式子中部分同样离不开复杂计算.
+  \item[$\bullet$] 渐进估计上下界:给出上下界的主项,但无法提供精确的计数结果.
+  \item[$\bullet$] 与图论和组合结构关系:与二元传递关系不完全等同,存在启发性意义，但无法直接用于解决计数问题.
+  \item[$\bullet$] 硬件加速:在计算能力上有所突破,但在理论层面没有改进,无法从根本上解决计算复杂性问题.
+\end{itemize}
+\item[$\bullet$] 局限性:
+\begin{itemize}
+  \item[$\bullet$] 理论层面仍未解决计算复杂的问题.
+  \item[$\bullet$] 相应数据结构、并行算法和理论研究适配度不高,研究进展不一致.
+\end{itemize}
+\item[$\bullet$] 未来方向:
+\begin{itemize}
+  \item[$\bullet$] 并行算法与分布式计算:利用GPU结合矩阵分块算法加速计算.
+  \item[$\bullet$] 近似计算与上下界优化:进一步缩小上下界的估计,在误差允许范围内估计T(n),类比拉姆塞数. 
+\end{itemize}
+\end{itemize}
+\section{结论}
+本文简单总结了传递关系计数的理论方法,并介绍了目前最新的研究成果,并列举了n=3时的所有传递关系矩阵表示和分类.
+最后分析比较了各项最新研究成果的成果和局限性,指出了可能的未来研究方向.
 \bibliographystyle{unsrt}
 \bibliography{reference}
 \end{document}
