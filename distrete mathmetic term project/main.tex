@@ -82,7 +82,9 @@ $Kleitman's\ Asymptotic\ Bounds:$Kleitman通过分析传递关系矩阵中的"1"
 块大小接近$\sqrt{n}$的划分,并且在这种划分下,可添加的自幼边数大约是$n^{2}/4$。\\
 \hspace*{2em}这两个证明确定了$T(n)$的指数增长率即核心增长项为(1/4)$n^2$.
 \subsubsection{精确计数与算法改进}\cite{fischer1971boolean}
-$Pfeiffer:$提出基于传递关系诱导的预序的树状递归结构。将问题分解为计算特定的较小的传递关系构成的更大的传递关系。这比朴素的枚举更高效。\\
+Pfeiffer:提出基于传递关系诱导的预序\footnote{预序(preorder)即自反且传递的二元关系,与偏序(partial order)相比仅少了不要求反对称性}的树状递归结构。将问题分解为计算特定的较小的传递关系构成的更大的传递关系。这比朴素的枚举更高效。
+但该公式计数的是含自反、对称随意的传递关系,而非严格的传递关系.
+\\
 Pfreiffer formula:\\
 \[
 T(n)=\sum_{\pi}^{}(P(k)\times \prod_{B\in \pi}^{} B(\left | B \right | ))
@@ -94,7 +96,7 @@ $B$,计算其大小$\left | B \right |$的贝尔数,并求乘积。\\
 如$T(20)$是一个有几十亿位的天文数字。
 \subsubsection{随机方法与概率角度}
 除了直接关注确定性的传递关系结构计数,也有研究者从概率的角度,从“随机生成关系是否为传递关系”这一问题出发,通过求解传递关系在所有关系中出现的概率来计算传递关系数目.\\
-\\最基本的问题为:从所有n元集合上的二元关系中随机选取一个,是传递关系的概率是多少？\\
+\hspace*{2em}最基本的问题为:从所有n元集合上的二元关系中随机选取一个,是传递关系的概率是多少？\\
 Sharp、Pantone与Spiro通过渐近分析证明,对于传递关系数T(n):
 \[
 T(n)\thicksim 2^{\frac{1}{4}n^{2}+o(n^{2})}
@@ -104,7 +106,6 @@ T(n)\thicksim 2^{\frac{1}{4}n^{2}+o(n^{2})}
 P=\frac{T(n)}{2^{n^{2}}}\thicksim 2^{-\frac{3}{4}n^{2}+o(n^{2})}
 \]
 由此可以看出,传递关系在所有关系中及其稀少,随机选择关系为传递关系的概率几乎为零,因此主流的研究方法还是构造性方法.\cite{panto2019asymptotic}
-
 \subsubsection{与图论和组合结构的关系}
 图的结构分解、可达性等与传递关系有着极大的相似性,在图论的视角下研究传递关系计数问题亦有新的进展.\\
 传递系统与枚举算法:\\
@@ -310,7 +311,7 @@ $\\
   %\draw (c) edge (a);
   %\draw (c) edge (b);
 \end{tikzpicture}\\
-三个元素之间都存在双向有向边:$a \rightleftarrows b ,b \rightleftarrows c,b \rightleftarrows c$
+三个元素之间都存在双向有向边:$a \rightleftarrows b ,b \rightleftarrows c,c \rightleftarrows a$
 \end{center}
 成员数:$2^{0}$=1;
 \\
